@@ -15,10 +15,14 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
-        _particleSystem = transform.GetChild(1).GetComponent<ParticleSystem>();
+        if(gameObject.name.Contains("white"))
+        _particleSystem = transform.parent.GetChild(0).GetComponent<ParticleSystem>();
+
+        else if (gameObject.name.Contains("black"))
+            _particleSystem = transform.parent.GetChild(1).GetComponent<ParticleSystem>();
+
         rotation_angles = new Vector3(0, 0, rotation_speed);
         line_rnd = GetComponent<LineRenderer>();
-        line_rnd.enabled = false;
         line_rnd.SetPosition(0, transform.position);
         SeeForward(); //Para pegar os valores de start, finish e direction
         SetPlayer(false);
@@ -85,8 +89,9 @@ public class Block : MonoBehaviour
             Debug.Log("Dentro do branco.");
             if (Input.GetButtonDown("Fire1"))
             {
-                Player.player.AddVelocity(direction * shot_force);
+                Camera.main.GetComponent<AudioSource>().Play();
                 SetPlayer(false);
+                Player.player.AddVelocity(direction * shot_force);
             }
         }
         else if (transform.name.Contains("black"))
@@ -94,8 +99,9 @@ public class Block : MonoBehaviour
             Debug.Log("Dentro do preto.");
             if (Input.GetButtonUp("Fire1") || !Input.anyKey)
             {
-                Player.player.AddVelocity(direction * shot_force);
+                Camera.main.GetComponent<AudioSource>().Play();
                 SetPlayer(false);
+                Player.player.AddVelocity(direction * shot_force);
             }
         }
     }
@@ -107,5 +113,10 @@ public class Block : MonoBehaviour
         _particleSystem.transform.position = position;
 
         //_particleSystem.transform.rotation = Quaternion.Euler(key);
+    }
+
+    public void ResetRotation()
+    {
+        transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 }

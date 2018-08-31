@@ -31,6 +31,7 @@ public class AdManager : MonoBehaviour
         {
             case ShowResult.Finished:
                 Debug.Log("Viu o anuncio todo");
+                FindObjectOfType<Player>().ResetBlockRotation();
                 //Time.timeScale = 1;
                 break;
             case ShowResult.Skipped:

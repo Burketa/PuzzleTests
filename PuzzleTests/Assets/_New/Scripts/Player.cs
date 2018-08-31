@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
 
     private int health_max = 10, health_current;
 
-    private Vector2 _spawn_point, _last_valid_block;
+    private Vector2 _spawn_point, _last_valid_block_position;
+    private GameObject _last_valid_block;
     private bool _revive_clicked = false, _continue_clicked = false;
     private int remaining_revives = 3;
     private int score = 0, highscore = 0, sum = 0;
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
 
         health_current = health_max;
         _spawn_point = transform.position;
-        _last_valid_block = transform.position;
+        _last_valid_block_position = transform.position;
     }
 
     public Vector2 AddVelocity(Vector2 velocity)
@@ -44,8 +45,11 @@ public class Player : MonoBehaviour
         if(trigger_obj.tag.Equals("Block"))
         {
             _rgdbdy.gravityScale = 0;
-            if(trigger_obj.name.Contains("white"))
-                _last_valid_block = transform.position;
+            if (trigger_obj.name.Contains("white"))
+            {
+                _last_valid_block = trigger_obj.gameObject;
+                _last_valid_block_position = transform.position;
+            }
             _rgdbdy.velocity = Vector3.zero;
             _rgdbdy.angularVelocity = 0;
             _sprt.enabled = false;
@@ -125,7 +129,7 @@ public class Player : MonoBehaviour
         _revive_clicked = true;
         remaining_revives--;
         AddScore(-1);
-        transform.position = _last_valid_block;
+        transform.position = _last_valid_block_position;
         Camera.main.GetComponent<AdManager>().ShowRewardedAd();
     }
 
@@ -152,5 +156,10 @@ public class Player : MonoBehaviour
         score_obj.text = "Pontos\n" + score.ToString();
         highscore_obj.text = highscore.ToString();
         sum_obj.text = sum.ToString();
+    }
+
+    public void ResetBlockRotation()
+    {
+        _last_valid_block.GetComponent<Block>().ResetRotation();
     }
 }
