@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114726765588239554}
   - component: {fileID: 58177519330900796}
   - component: {fileID: 120053038697605846}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: block_black
   m_TagString: Block
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4630136606239158}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: forward
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -210,7 +210,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 7ced4d73de3f19a49a2285aa05a3c02f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

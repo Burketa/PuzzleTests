@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer _sprt;
     public UI _canvas;
     public TextMesh score_obj, highscore_obj, sum_obj;
+    public TextMesh _health_obj;
 
 
     private int health_max = 10, health_current;
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
 
         else if(trigger_obj.tag.Equals("Star"))
         {
-            AddScore(10);
+            AddScore(1);
             Destroy(trigger_obj.gameObject);
         }
     }
@@ -68,7 +69,8 @@ public class Player : MonoBehaviour
     {
         health_current -= damage;
         Mathf.Clamp(health_current, 0, health_max);
-        if(health_current == 0)
+        _health_obj.text = health_current.ToString();
+        if(health_current <= 0)
         {
             Die();
         }
@@ -85,6 +87,7 @@ public class Player : MonoBehaviour
 
         //transform.position = _spawn_point;
         health_current = health_max;
+        _health_obj.text = health_current.ToString();
 
         _rgdbdy.velocity = Vector3.zero;
         _rgdbdy.angularVelocity = 0;

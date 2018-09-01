@@ -52,7 +52,7 @@ public class Block : MonoBehaviour
         start = transform.position;
         finish = transform.GetChild(0).transform.position;
         direction = (finish - start).normalized;
-
+        
         sighttest = DoRaycast(start, direction, ray_distance, Color.red);
 
         foreach (RaycastHit2D target in sighttest)  //Para cada objeto no Ray, compara pra ver se não é ele mesmo e nem o player(que esta dentro dele)
@@ -61,10 +61,10 @@ public class Block : MonoBehaviour
             {
                 line_rnd.SetPosition(1, target.point);
                 EmmitParticlesOnLaserBeamEnd(target.point, target.normal);
-                //Debug.Log("Hit Obj: " + target.collider.name);
                 break;
             }
         }
+        
     }
 
     public RaycastHit2D[] DoRaycast(Vector3 start, Vector3 direction, float distance, Color color)
