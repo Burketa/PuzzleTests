@@ -6,11 +6,12 @@ public class Trap : MonoBehaviour
 {
     public float speed;
 
-    private SpriteRenderer _sprite;
+    private SpriteRenderer _sprt;
 
-    private void Start()
+    private void Awake()
     {
-        _sprite = GetComponent<SpriteRenderer>();
+        _sprt = GetComponent<SpriteRenderer>();
+
         if (gameObject.name.Contains("left"))
             speed *= -1;
     }
@@ -49,7 +50,7 @@ public class Trap : MonoBehaviour
         else
         {
             speed *= -1;
-            _sprite.flipX = !_sprite.flipX;
+            _sprt.flipX = !_sprt.flipX;
         }
     }
 }
