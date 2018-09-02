@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
 
     private Vector2 _desired_position, _smoothed_position;
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         PositionCamera(Vector2.zero, follow_player);
     }

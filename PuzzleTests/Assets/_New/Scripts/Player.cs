@@ -6,31 +6,29 @@ public class Player : MonoBehaviour
 {
     public static Player player;
 
-    public UI _canvas;
     public TextMesh score_obj, highscore_obj, sum_obj;
+    public int health_max = 10, health_current, remaining_revives = 3, score = 0, highscore = 0, sum = 0, player_progress = 1, rotation_scale = 1;
+
+    [Header("References")]
+    public UI _canvas;
     public TextMesh _health_obj;
-
-
-    private bool _revive_clicked = false, _continue_clicked = false;
-    private int health_max = 10, health_current, remaining_revives = 3, score = 0, highscore = 0, sum = 0;
+    public Rigidbody2D _rgdbdy;
+    //public CircleCollider2D _collider;
+    public BoxCollider2D _collider;
+    public SpriteRenderer _sprt;
+    public Transform _transform;
     //Caching
-    private Rigidbody2D _rgdbdy;
-    private CircleCollider2D _collider;
-    private SpriteRenderer _sprt;
     private Vector2 _spawn_point, _last_valid_block_position;
     private Transform _last_valid_block;
 
     private void Awake()    //Coloca as variaveis e faz o caching ao acordar
     {
-        player = this;
-
+        player = GetComponent<Player>();
         health_current = health_max;
-
-        _rgdbdy = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<CircleCollider2D>();
-        _sprt = GetComponent<SpriteRenderer>();
-        _spawn_point = transform.position;
-        _last_valid_block_position = transform.position;
+        _spawn_point = _transform.position;
+        _last_valid_block_position = _transform.position;
+        if (!Application.isEditor)
+            SceneManager.LoadScene(player_progress, LoadSceneMode.Additive);
     }
 
     public void AddVelocity(Vector2 velocity)
@@ -44,7 +42,7 @@ public class Player : MonoBehaviour
     {
         if(trigger_obj.tag.Equals("Block"))
         {
-            _rgdbdy.gravityScale = 0;
+            trigger_obj.GetComponent<Block>().current_rotation_speed = trigger_obj.GetComponent<Block>().rotation_speed * (1 + (health_current * rotation_scale / health_max)); //Melhorar essa linha porcaria !
             if (trigger_obj.name.Contains("white"))                         //Salva o bloco branco que fez contato como ultimo bloco valido.
             {
                 _last_valid_block = trigger_obj.transform;
@@ -52,7 +50,7 @@ public class Player : MonoBehaviour
             }
             BreakPlayer();                                                  //Para o player no bloco
             _sprt.enabled = false;                                          //Da um disable no sprite renderer para não ficar aparecendo por cima do bloco em que esta
-            transform.position = trigger_obj.transform.position;            //Seta a posição para ficar certinho em cima do bloco
+            _transform.position = trigger_obj.transform.position;            //Seta a posição para ficar certinho em cima do bloco
             trigger_obj.gameObject.GetComponent<Block>().SetPlayer(true);   //Chama a funcao SetPlayer no bloco colidido
         }
 
@@ -81,7 +79,7 @@ public class Player : MonoBehaviour
 
     public void Die()
     {
-        StartCoroutine(ShowMenu());
+        _canvas.ShowDieMenu();
 
         //Precisa dar um enable e um disable para resetar o OnTriggerEnter caso morra muito perto do inimigo.
         _collider.enabled = false;
@@ -97,50 +95,25 @@ public class Player : MonoBehaviour
     {
         return _sprt.enabled;
     }
-
-    public IEnumerator ShowMenu()
-    {
-        Debug.Log("Showing Menu");
-        _canvas.ChangeRemainingRevives(remaining_revives);                     //Atualiza a quantidade de revives restantes no UI
-        if (remaining_revives <= 0)
-        {
-            _canvas.button_revive.interactable = false;
-            //TODO: Arrumar um jeito de resetar o tanto de restarts que ele tem.
-            //remaining_revives = 3;
-        }
-        else
-            _canvas.button_revive.interactable = true;
-        _canvas.gameObject.SetActive(true);                                  //Ativa o canvas
-        yield return StartCoroutine(WaitButtonPress());                      //Espera o retorno da corrotina pra só continuar depois de algum botao ser apertado
-        _canvas.gameObject.SetActive(false);                                 //Desativa o canvas
-        Debug.Log("Disabling menu");
-    }
-
-    public IEnumerator WaitButtonPress()
-    {
-        Debug.Log("Esperando Clique");
-        while (!_revive_clicked && !_continue_clicked)
-        {
-            yield return null;
-        }
-        _revive_clicked = _continue_clicked = false;                        //Depois de capturado o toque, reseta as variaveis
-        Debug.Log("Clicado");
-    }
-
+    
     public void ReviveClicked()
     {
-        _revive_clicked = true;
         remaining_revives--;
         AddScore(-1);   //TODO: melhorar isso
-        transform.position = _last_valid_block_position;                    //Seta a posicao para o ultimo bloco valido
-        Camera.main.GetComponent<AdManager>().ShowRewardedAd();             //Mostra um anuncio para reviver
+        _last_valid_block.GetComponent<Block>().SetPlayer(false);
+        _transform.position = _last_valid_block_position;                    //Seta a posicao para o ultimo bloco valido
     }
 
-    public void ContinueClicked()
+    public void TryAgainClicked()
     {
-        _continue_clicked = true;
-        transform.position = _spawn_point;
-        SceneManager.LoadScene(0);      //É mesmo nescessario ? Acho que quando arrumar um jeito de dar um enable nas estrelas ja pegas é possivel tirar isso
+        //_transform.position = _spawn_point;
+        _transform.position = Vector2.zero;
+        remaining_revives = 3;
+
+        _sprt.enabled = true;
+        
+        if(_last_valid_block)
+            _last_valid_block.GetComponent<Block>().SetPlayer(false);
     }
 
     public void AddScore(int qtd)
@@ -163,6 +136,8 @@ public class Player : MonoBehaviour
 
     public void ResetBlockRotation()
     {
-        _last_valid_block.GetComponent<Block>().ResetRotation();
+        Block block = _last_valid_block.GetComponent<Block>();
+
+        block.ResetRotation();
     }
 }

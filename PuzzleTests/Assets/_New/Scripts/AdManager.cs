@@ -17,11 +17,13 @@ public class AdManager : MonoBehaviour
 
     public void ShowRewardedAd()
     {
-
-        //Time.timeScale = 0;
-        if (Advertisement.IsReady("rewardedVideo"))
+        if (Random.value < 0.3)
         {
-            Advertisement.Show("rewardedVideo", new ShowOptions() { resultCallback = HandleResult });
+            //Time.timeScale = 0;
+            if (Advertisement.IsReady("rewardedVideo"))
+            {
+                Advertisement.Show("rewardedVideo", new ShowOptions() { resultCallback = HandleResult });
+            }
         }
     }
 

@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Advertisements;
-
 public class Block : MonoBehaviour
 {
     public bool hasPlayer = false;
-    public float rotation_speed = 1, shot_force = 10;
+    public float rotation_speed = 1, current_rotation_speed = 1, shot_force = 10;
     
-    public GameObject _canvas;
-
+    private GameObject _canvas;
     private Transform _transform, _child;
     private Vector2 start, finish, direction;
     private Vector3 rotation_angles;
@@ -19,6 +18,7 @@ public class Block : MonoBehaviour
     {
         _transform = transform;
         _child = _transform.GetChild(0).transform;
+        current_rotation_speed = rotation_speed;
         //Gambiarra detected:
         if (_transform.name.Contains("white"))
             _particleSystem = transform.parent.GetChild(0).GetComponent<ParticleSystem>();
@@ -31,6 +31,7 @@ public class Block : MonoBehaviour
         _line_rnd.SetPosition(0, _transform.position);
         SeeForward(); //Para pegar os valores de start, finish e direction
         SetPlayer(false);
+        _canvas = Player.player._canvas.transform.GetChild(0).gameObject;
     }
 
     private void FixedUpdate()
@@ -38,8 +39,8 @@ public class Block : MonoBehaviour
         if (hasPlayer)
         {
             SeeForward();
+            rotation_angles = new Vector3(0, 0, current_rotation_speed);    //Para mudar a rotacao no playmode, pode tirar mais tarde eu acho
             _transform.Rotate(rotation_angles);
-            rotation_angles = new Vector3(0, 0, rotation_speed);    //Para mudar a rotacao no playmode, pode tirar mais tarde eu acho
         }
     }
 
@@ -85,8 +86,19 @@ public class Block : MonoBehaviour
         if (_transform.name.Contains("white"))
         {
             Debug.Log("Dentro do branco.");
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetMouseButtonDown(0))
             {
+                if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                    if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))                    //Se não tiver clicado em um elemento de UI...não faça o imput !
+                        return;
+                }
+                else
+                {
+                    if (EventSystem.current.IsPointerOverGameObject())                                              //Se não tiver clicado em um elemento de UI...não faça o imput !
+                        return;
+                }
+                InvertRotation();
                 SetPlayer(false);
                 Player.player.AddVelocity(direction * shot_force);
             }
@@ -94,8 +106,9 @@ public class Block : MonoBehaviour
         else if (_transform.name.Contains("black"))
         {
             Debug.Log("Dentro do preto.");
-            if (Input.GetButtonUp("Fire1") || !Input.anyKey)
+            if (!Input.anyKey)
             {
+                InvertRotation();
                 SetPlayer(false);
                 Player.player.AddVelocity(direction * shot_force);
             }
@@ -112,5 +125,10 @@ public class Block : MonoBehaviour
     public void ResetRotation()
     {
         transform.rotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    public void InvertRotation()
+    {
+        current_rotation_speed *= -1;
     }
 }

@@ -19,7 +19,9 @@ public class Trap : MonoBehaviour
     void FixedUpdate ()
     {
         if (speed != 0)
+        {
             transform.Translate(new Vector2(speed * Time.deltaTime, 0));
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

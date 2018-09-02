@@ -3,7 +3,15 @@ guid: c9c36b25b4d9e6045806b0210b87038f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - score_obj: {instanceID: 0}
+  - highscore_obj: {instanceID: 0}
+  - sum_obj: {instanceID: 0}
+  - _canvas: {instanceID: 0}
+  - _health_obj: {instanceID: 0}
+  - _rgdbdy: {instanceID: 0}
+  - _collider: {instanceID: 0}
+  - _sprt: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

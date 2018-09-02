@@ -8,6 +8,7 @@ TagManager:
   - Canvas
   - Star
   - Block
+  - Score
   layers:
   - Default
   - TransparentFX
