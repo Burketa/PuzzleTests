@@ -11,21 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1534210403002780}
   m_IsPrefabAsset: 1
---- !u!1 &1303377042542382
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4976437269105408}
-  m_Layer: 8
-  m_Name: forward
-  m_TagString: Untagged
-  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1534210403002780
 GameObject:
   m_ObjectHideFlags: 0
@@ -52,26 +37,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534210403002780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.325, y: -30.015, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4976437269105408}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4976437269105408
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1303377042542382}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: -11.04, y: -0.345, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4352246918065636}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!58 &58851929663532698
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -98,11 +69,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6187f1c85b810504da25f1d48f5e3080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotation_speed: 0.5
-  shot_force: 12
-  ray_distance: 1000
   hasPlayer: 0
-  _canvas: {fileID: 1284386274968584, guid: 58587f3c72f90864a808fb3f7de98966, type: 2}
+  clockwise: 1
+  rotation_speed: 0.3
+  current_rotation_speed: 1
+  shot_force: 12
 --- !u!120 &120203987714941610
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -191,7 +162,7 @@ LineRenderer:
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
-    textureMode: 2
+    textureMode: 0
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
@@ -210,7 +181,7 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 7ced4d73de3f19a49a2285aa05a3c02f, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

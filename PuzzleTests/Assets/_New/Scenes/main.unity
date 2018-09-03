@@ -185,11 +185,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4905906603154256, guid: ba3767e4d0343e24287f9b454da6bac4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -10.98
       objectReference: {fileID: 0}
     - target: {fileID: 4905906603154256, guid: ba3767e4d0343e24287f9b454da6bac4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.28
       objectReference: {fileID: 0}
     - target: {fileID: 4905906603154256, guid: ba3767e4d0343e24287f9b454da6bac4, type: 2}
       propertyPath: m_LocalPosition.z
@@ -254,6 +254,20 @@ Prefab:
       propertyPath: m_PixelPerfect
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 58274699133963064, guid: ba3767e4d0343e24287f9b454da6bac4,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 61197686370976886, guid: ba3767e4d0343e24287f9b454da6bac4,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1873664989412510, guid: ba3767e4d0343e24287f9b454da6bac4, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba3767e4d0343e24287f9b454da6bac4, type: 2}
   m_IsPrefabAsset: 0
@@ -286,7 +300,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1212938128}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.44, y: 21.22, z: 0}
+  m_LocalPosition: {x: 20.98, y: -11.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -304,9 +318,9 @@ TextMesh:
   m_CharacterSize: 0.1
   m_LineSpacing: 1.55
   m_Anchor: 4
-  m_Alignment: 1
+  m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 152
+  m_FontSize: 97
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 371af9229b246af4eb2474b020c12a90, type: 3}
@@ -372,7 +386,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1507362354}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.11, y: 24.330002, z: 0}
+  m_LocalPosition: {x: 19.540005, y: -9.359998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -394,7 +408,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 152
+  m_FontSize: 97
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 371af9229b246af4eb2474b020c12a90, type: 3}
@@ -465,7 +479,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2076714492}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.99, y: 19.16, z: 0}
+  m_LocalPosition: {x: 19.420002, y: -12.95, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -485,7 +499,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 152
+  m_FontSize: 97
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: 371af9229b246af4eb2474b020c12a90, type: 3}
@@ -536,7 +550,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4856091548458548, guid: 5ac51ea68269a2d4a89a207c03065d19, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -10.9
       objectReference: {fileID: 0}
     - target: {fileID: 4856091548458548, guid: 5ac51ea68269a2d4a89a207c03065d19, type: 2}
       propertyPath: m_LocalPosition.y
@@ -571,15 +585,6 @@ Prefab:
       propertyPath: player
       value: 
       objectReference: {fileID: 520740063}
-    - target: {fileID: 1167333257634502, guid: 5ac51ea68269a2d4a89a207c03065d19, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 82554573120071208, guid: 5ac51ea68269a2d4a89a207c03065d19,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ac51ea68269a2d4a89a207c03065d19, type: 2}
   m_IsPrefabAsset: 0

@@ -13,8 +13,7 @@ public class Player : MonoBehaviour
     public UI _canvas;
     public TextMesh _health_obj;
     public Rigidbody2D _rgdbdy;
-    //public CircleCollider2D _collider;
-    public BoxCollider2D _collider;
+    public Collider2D _collider;
     public SpriteRenderer _sprt;
     public Transform _transform;
     //Caching
@@ -23,6 +22,7 @@ public class Player : MonoBehaviour
 
     private void Awake()    //Coloca as variaveis e faz o caching ao acordar
     {
+        _collider = GetComponent<Collider2D>();
         player = GetComponent<Player>();
         health_current = health_max;
         _spawn_point = _transform.position;
@@ -40,9 +40,12 @@ public class Player : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D trigger_obj)
     {
-        if(trigger_obj.tag.Equals("Block"))
+        if (trigger_obj.tag.Equals("Block"))
         {
-            trigger_obj.GetComponent<Block>().current_rotation_speed = trigger_obj.GetComponent<Block>().rotation_speed * (1 + (health_current * rotation_scale / health_max)); //Melhorar essa linha porcaria !
+            /* isso ta uma merda...*/
+            if (trigger_obj.GetComponent<Block>().current_rotation_speed > 0)
+                trigger_obj.GetComponent<Block>().current_rotation_speed = trigger_obj.GetComponent<Block>().rotation_speed * (1 + (health_current * rotation_scale / health_max)); //Melhorar essa linha porcaria !            
+            /*... Faça melhor !*/
             if (trigger_obj.name.Contains("white"))                         //Salva o bloco branco que fez contato como ultimo bloco valido.
             {
                 _last_valid_block = trigger_obj.transform;
@@ -54,7 +57,7 @@ public class Player : MonoBehaviour
             trigger_obj.gameObject.GetComponent<Block>().SetPlayer(true);   //Chama a funcao SetPlayer no bloco colidido
         }
 
-        else if(trigger_obj.tag.Equals("Star"))
+        else if (trigger_obj.tag.Equals("Star"))
         {
             AddScore(1);
             trigger_obj.gameObject.SetActive(false);                        //Melhor destruir ou desativar ?
@@ -72,7 +75,7 @@ public class Player : MonoBehaviour
         health_current -= damage;                                          //Da o dano no player
         Mathf.Clamp(health_current, 0, health_max);                        //Clampa o valor para não ter valores negativos
         _health_obj.text = health_current.ToString();                      //Atualiza o texto da vida
-        if(health_current <= 0)                                            //Se tiver chegado a 0 de vida, morre
+        if (health_current <= 0)                                            //Se tiver chegado a 0 de vida, morre
             Die();
         return health_current;
     }
@@ -84,7 +87,7 @@ public class Player : MonoBehaviour
         //Precisa dar um enable e um disable para resetar o OnTriggerEnter caso morra muito perto do inimigo.
         _collider.enabled = false;
         _collider.enabled = true;
-        
+
         health_current = health_max;                                            //Reseta a vida para o valor da vida maxima
         _health_obj.text = health_current.ToString();                           //Atualiza os valores no texto
 
@@ -95,13 +98,17 @@ public class Player : MonoBehaviour
     {
         return _sprt.enabled;
     }
-    
+
     public void ReviveClicked()
     {
         remaining_revives--;
         AddScore(-1);   //TODO: melhorar isso
         _last_valid_block.GetComponent<Block>().SetPlayer(false);
         _transform.position = _last_valid_block_position;                    //Seta a posicao para o ultimo bloco valido
+
+        _last_valid_block.GetComponent<Block>().ResetRotation();
+
+        _last_valid_block.GetComponent<Block>().InvertRotation();
     }
 
     public void TryAgainClicked()
@@ -111,8 +118,8 @@ public class Player : MonoBehaviour
         remaining_revives = 3;
 
         _sprt.enabled = true;
-        
-        if(_last_valid_block)
+
+        if (_last_valid_block)
             _last_valid_block.GetComponent<Block>().SetPlayer(false);
     }
 

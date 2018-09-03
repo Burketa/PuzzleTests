@@ -4,42 +4,48 @@ using UnityEngine.Advertisements;
 public class Block : MonoBehaviour
 {
     public bool hasPlayer = false;
+    public bool clockwise = true;
     public float rotation_speed = 1, current_rotation_speed = 1, shot_force = 10;
-    
-    private GameObject _canvas;
-    private Transform _transform, _child;
-    private Vector2 start, finish, direction;
+
+    private GameObject _menu;
+    private Transform _transform;
+    private Vector2 start, direction;
     private Vector3 rotation_angles;
+    private Quaternion _starting_rotation;
     private LineRenderer _line_rnd;
     private RaycastHit2D[] _sighttest;
     private ParticleSystem _particleSystem;
 
     private void Awake()
     {
+        if (!clockwise)
+            rotation_speed = Mathf.Abs(rotation_speed);
+        else
+            rotation_speed = -Mathf.Abs(rotation_speed);
         _transform = transform;
-        _child = _transform.GetChild(0).transform;
+        _starting_rotation = _transform.rotation;
         current_rotation_speed = rotation_speed;
         //Gambiarra detected:
         if (_transform.name.Contains("white"))
             _particleSystem = transform.parent.GetChild(0).GetComponent<ParticleSystem>();
 
-        else if(_transform.name.Contains("black"))
-             _particleSystem = transform.parent.GetChild(1).GetComponent<ParticleSystem>();
+        else if (_transform.name.Contains("black"))
+            _particleSystem = transform.parent.GetChild(1).GetComponent<ParticleSystem>();
         //
         rotation_angles = new Vector3(0, 0, rotation_speed);
+        _menu = Player.player._canvas.transform.GetChild(0).gameObject;
         _line_rnd = GetComponent<LineRenderer>();
         _line_rnd.SetPosition(0, _transform.position);
-        SeeForward(); //Para pegar os valores de start, finish e direction
+        SeeForward(); //Para pegar os valores de start e direction
         SetPlayer(false);
-        _canvas = Player.player._canvas.transform.GetChild(0).gameObject;
     }
 
     private void FixedUpdate()
     {
-        if (hasPlayer)
+        if (hasPlayer && !_menu.activeSelf)
         {
             SeeForward();
-            rotation_angles = new Vector3(0, 0, current_rotation_speed);    //Para mudar a rotacao no playmode, pode tirar mais tarde eu acho
+            rotation_angles.z = current_rotation_speed;    //Para mudar a rotacao no playmode, pode tirar mais tarde eu acho
             _transform.Rotate(rotation_angles);
         }
     }
@@ -47,7 +53,7 @@ public class Block : MonoBehaviour
     private void Update()
     {
         //Só deixa o player atirar caso o canvas não esteja ativo, não tenha ad sendo visto e o bloco está com o player agora.
-        if (hasPlayer && !_canvas.activeSelf && !Advertisement.isShowing)
+        if (hasPlayer && !_menu.activeSelf && !Advertisement.isShowing)
         {
             CheckInputs();
         }
@@ -56,9 +62,8 @@ public class Block : MonoBehaviour
     void SeeForward()
     {
         start = _transform.position;
-        finish = _child.position;
-        direction = (finish - start).normalized;
-        
+        direction = _transform.right;
+
         _sighttest = Physics2D.RaycastAll(start, direction);
 
         foreach (RaycastHit2D target in _sighttest)  //Para cada objeto no Ray, compara pra ver se não é ele mesmo e nem o player(que esta dentro dele)
@@ -70,7 +75,7 @@ public class Block : MonoBehaviour
                 break;
             }
         }
-        
+
     }
 
     public void SetPlayer(bool state)
@@ -124,7 +129,7 @@ public class Block : MonoBehaviour
 
     public void ResetRotation()
     {
-        transform.rotation = Quaternion.Euler(Vector3.zero);
+        transform.rotation = _starting_rotation;
     }
 
     public void InvertRotation()
